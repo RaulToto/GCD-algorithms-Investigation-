@@ -1,0 +1,61 @@
+\chapter{Algoritmo Euclides Extendido}
+\section{Definición}
+El algoritmo de Euclides extendido permite, además de encontrar un máximo común divisor de dos números enteros  $a\: y\: b$, expresarlo como la mínima combinación lineal de esos números, es decir, encontrar números enteros $s\: y\: t$ tales que $mcd(a,b)=as+bt$. Esto se generaliza también hacia cualquier dominio euclideano.
+\section{El algoritmo de Euclides Extendido}
+\subsection{Fundamentos}
+\begin{itemize}
+ \item Usar el algoritmo tradicional de Euclides. En cada paso, en lugar de a dividido entre b es q y de resto r se escribe la ecuación $a = b q + r$
+ \item Se despeja el resto de cada ecuación.
+ \item Se sustituye el resto de la última ecuación en la penúltima, y la penúltima en la antepenúltima y así sucesivamente hasta llegar a la primera ecuación, y en todo paso se expresa cada resto como combinación lineal.
+\end{itemize}
+\section{Implementación}
+\begin{lstlisting}[language=C++]
+ZZ euclides(ZZ &a, ZZ &b)//
+{
+    ZZ q,r,r1=a,r2=b,s,s1,s2,t,t1,t2;
+    s1=1,s2=0,t,t1=0,t2=1;
+    while(r2>0)
+    {
+        q=r1/r2;
+        r=r1-(q*r2);
+        r1=r2;
+        r2=r;
+        //-----
+        s=s1-(q*s2);
+        s1=s2;
+        s2=s;
+        t=t1-(q*t2);
+        t1=t2;
+        t2=t;
+    }
+    return s1;
+}
+\end{lstlisting}
+\section{Seguimiento del algoritmo}
+%\begin{center}
+\begin{sideways}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+q&r1&r2&r&s1&s2&s&t1&t2&t \\\hline
+9998111&93475&70209&70209&0&1&1&1&-9998111&-9998111\\\hline
+1&70209&23266&23266&1&-1&-1&-9998111&9998112&9998112\\\hline
+3&23266&411&411&-1&4&4&9998112&-39992447&-39992447\\\hline
+56&411&250&250&4&-225&-225&-39992447&2249575144&2249575144\\\hline
+1&250&161&161&-225&229&229&2249575144&-2289567591&-2289567591\\\hline
+1&161&89&89&229&-454&-454&-2289567591&4539142735&4539142735\\\hline
+1&89&72&72&-454&683&683&4539142735&-6828710326&-6828710326\\\hline
+1&72&17&17&683&-1137&-1137&-6828710326&11367853061&11367853061\\\hline
+4&17&4&4&-1137&5231&5231&11367853061&-52300122570&-52300122570\\\hline
+4&4&1&1&5231&-22061&-22061&-52300122570&220568343341&220568343341\\\hline
+4&1&0&0&-22061&93475&93475&220568343341&-934573495934&-934573495934\\\hline
+\end{tabular}
+\end{sideways}
+%\end{center}
+
+
+%
+%\end{table}
+
+
+
+

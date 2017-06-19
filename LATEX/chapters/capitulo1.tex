@@ -1,0 +1,106 @@
+\chapter{Algoritmo de Menor Resto}
+\section{Definición}
+es muy apropiada para fines teóricos. Que el resto sea
+positivo es adecuado, como vimos, para mostrar unicidad.
+Sin embargo el resto no tiene porque ser positivo, por ejemplo si a = 144 y b = 89,
+\begin{itemize}
+    \item 144 = 89 · 1 + 55, resto r2 = $55 < b = 89$
+    \item 144 = 89 · 2 − 34, resto r1 = $34 < b = 89$
+
+\end{itemize}
+
+\section{Implementacion del algoritmo}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <NTL/ZZ.h>//includ  the lib ntl 
+#include <ctime>
+#include <fstream>
+using namespace std;//using std namespace 
+using namespace NTL;//using NTL namespaces
+unsigned t0,t1;
+
+ZZ module(ZZ &x,ZZ &y){
+    ZZ q=x/y,r;
+    if(q<0)
+    {
+        q=-1*q;
+        q++;
+        q=-1*q;
+        r=x-(q*y);
+    }
+    else 
+    {
+        r=x-(q*y);
+    }
+    return r;
+}
+ZZ menor(ZZ x,ZZ y)
+{
+    if(y<x)
+        return y;
+    else 
+        return x;
+}
+void euclides(ZZ a, ZZ b)//
+{
+    //t0=clock();
+    ZZ q,q1,r;
+    q=a/b;
+    q1=q;q1++;
+    r=menor(a-(q*b),a-(q1*b));
+    //r=a%b;
+    while(r!=0)
+    {
+        q=a/b;
+        q1=q;q++;
+        r=menor(a-(q*b),a-(q1*b));
+        //cout << a  << '\t'<<  " = " << q << "(" << b << ")" << "+" << r << endl;//print the euclides algorithm
+        a=b;
+        b=r;
+    }
+    cout << "result is "<< a << endl;
+    //t1=clock();
+}
+//funcion para guardar los datos 
+int main()
+{
+    ZZ a,b;
+    cout << "input a:" ; cin >> a; //imput the numbers 
+    cout << "input b:" ; cin >> b;
+    euclides(a,b);
+    //double time=(double(t1-t0)/CLOCKS_PER_SEC);
+    //cout << "Execution time:" << time << endl;
+
+}
+\end{lstlisting}
+\section{Seguimiento del codigo}
+\begin{table}[H]
+\label{tablax}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+a&b&q&r \\
+\hline
+9792347293422342&10048&974592347234&-356611584890\\\hline
+974592347234&-2&-356611584890&-95242407436\\\hline
+-356611584890&4&-95242407436&-70884362582\\\hline
+-95242407436&2&-70884362582&-24358044854\\\hline
+-70884362582&3&-24358044854&-22168272874\\\hline
+-24358044854&2&-22168272874&-2189771980\\\hline
+-22168272874&11&-2189771980&-270553074\\\hline
+-2189771980&9&-270553074&-25347388\\\hline
+-270553074&11&-25347388&-17079194\\\hline
+-25347388&2&-17079194&-8268194\\\hline
+-17079194&3&-8268194&-542806\\\hline
+-8268194&16&-542806&-126104\\\hline
+-542806&5&-126104&-38390\\\hline
+-126104&4&-38390&-10934\\\hline
+-38390&4&-10934&-5588\\\hline
+-10934&2&-5588&-5346\\\hline
+-5588&2&-5346&-242\\\hline
+-5346&23&-242&-22\\\hline
+-242&12&-22&0\\\hline
+\end{tabular}
+\end{center}
+\caption{seguimiento de codigo}
+\end{table}

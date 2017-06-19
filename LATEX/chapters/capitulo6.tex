@@ -1,0 +1,112 @@
+\chapter{left-shift binary algorithm}
+\section{Definición}
+Este algoritmo debe su nombre al hecho de que se hace multiplicación por 2. En representación
+binaria el efecto de multiplicar por dos es un desplazamiento (en una posición), de la representación
+binaria original, hacia la izquierda.
+
+\section{Implementacion del algoritmo}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <cmath>
+#include <ctime>
+#include <fstream>
+#include <NTL/ZZ.h>
+using namespace std;
+using namespace NTL;
+unsigned t0,t1;
+void guardar(ZZ a,ZZ b,ZZ times,ZZ aux, ZZ s)
+{
+    ofstream archivo;
+    archivo.open("lsbgcd.csv",ios::app);
+    archivo << a <<"&"<< b<<"&"<<times<<"&"<< aux<<"&"<<s << "\\\\\\hline"<< endl;
+    archivo.close();
+}
+
+ZZ menor(ZZ x,ZZ y)
+{
+    if(y<x)
+        return y;
+    else 
+        return x;
+}
+ZZ potencia(ZZ a,ZZ b)
+{
+    ZZ result;
+    result=1;
+    for (int i = 0; i < b; i++)
+    {
+         result=a*result;
+    }
+    return result;
+}
+ZZ  lsbgcd(ZZ u, ZZ v)
+{
+    ZZ a,b,t,aux,s,two;
+    two=2;
+    a=abs(u);
+    b=abs(v);
+    cout << "a" << '\t'<< '\t' << "b" << '\t'<< '\t' << "t" << '\t'<< '\t' << "aux" << '\t'<< '\t' << "s" << endl;
+    while(b!=0)
+    {
+        s=0;
+        while(b*potencia(two,s)<=a)
+        {
+            s=s+1;
+        }
+        s=s-1;
+        t=menor(a-b*potencia(two,s),b*potencia(two,s+1)-a);
+        a=b;
+        b=t;
+        if(a<b)
+        {
+            aux=a;
+            a=b;
+            b=aux;
+        }
+        cout << a << '\t'<< '\t' << b << '\t'<< '\t' << t << '\t' << '\t'<< aux << '\t'<< '\t' << s <<endl; 
+        guardar(a,b,t,aux,s);
+    }   
+    return a;
+}
+//save data 
+int main()
+{
+    ZZ a,b;
+    cout << "input a:" ; cin >> a; //imput the numbers 
+    cout << "input b:" ; cin >> b;
+    lsbgcd(a,b);   
+}
+\end{lstlisting}
+\section{Seguimiento del codigo}
+\begin{table}[H]
+\label{tablax}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+a&b&t&aux&s \\
+\hline
+51459615586&94237394&51459615586&94237394&13\\\hline
+3210069858&94237394&3210069858&94237394&9\\\hline
+194473250&94237394&194473250&94237394&5\\\hline
+94237394&5998462&5998462&94237394&1\\\hline
+5998462&1737998&1737998&94237394&3\\\hline
+1737998&953530&953530&94237394&1\\\hline
+953530&169062&169062&94237394&0\\\hline
+277282&169062&277282&169062&2\\\hline
+169062&60842&60842&169062&0\\\hline
+60842&47378&47378&169062&1\\\hline
+47378&13464&13464&169062&0\\\hline
+13464&6478&6478&169062&1\\\hline
+6478&508&508&169062&1\\\hline
+1650&508&1650&508&3\\\hline
+508&382&382&508&1\\\hline
+382&126&126&508&0\\\hline
+126&122&122&508&1\\\hline
+122&4&4&508&0\\\hline
+6&4&6&4&4\\\hline
+4&2&2&4&0\\\hline
+2&0&0&4&1\\\hline
+\end{tabular}
+\end{center}
+\caption{seguimiento de codigo}
+\end{table}

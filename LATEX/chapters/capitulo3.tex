@@ -1,0 +1,80 @@
+\chapter{Algoritmo Binario de Euclides}
+\section{Definición}
+El algorirmo binario de GCD , tambien conociddo  como algortimo de stein es un algoritmo que calcula el mayor divisor común de dos enteros no negativos.
+El algoritmo de Stein utiliza operaciones aritméti-
+cas más simples que el algoritmo euclidiano conven-
+cional; Reemplaza la división por cambios aritméti-
+cos, comparaciones y sustracciones. Aunque el al-
+goritmo fue publicado por primera vez por el fı́sico
+y programador israelı́ Josef Stein en 1967, [2] puede
+haber sido conocido en la China del siglo I.
+Opera con los siguientes teoremas
+\section{el algoritmo de binario gcd}
+\begin{itemize}
+ \item Si a,b son pares, $mcd(a,b) = 2 mcd(a/2,b/2)$.
+ \item Si a es par y b impar o viceversa, $mcd(a,b) = mcd(a/2,b)\: o\: mcd(a, b/2)$.
+ \item Si a,b son impares , $mcd(a,b) = mcd(|a-b|/2, r)$, donde $r = min{a,b}$;
+\end{itemize}
+\section{Implementación}
+\begin{lstlisting}[language=C++]
+
+ZZ binary_gcd( ZZ u,ZZ v)
+{
+  int i;
+  if (u == 0) return v;
+  if (v == 0) return u;
+  cout << "a" << '\t' << "b" <<'\t' << "i" <<  endl;
+  for (i = 0; ((u | v) & 1) == 0; ++i) {
+         u >>= 1;
+         v >>= 1;
+        //cout << u << '\t' << v << '\t' << i <<  endl;      
+  }
+
+  while ((u & 1) == 0)
+    u >>= 1;
+    
+  do {
+       //cout << u << '\t' << v <<'\t' << i <<  endl;
+       while ((v & 1) == 0)  
+           v >>= 1;
+       if (u > v) {
+          ZZ t = v; v = u; u = t;}  
+       v = v - u;                       
+     } while (v != 0);
+  return u << i;
+}
+\end{lstlisting}
+\section{Seguimiento del algoritmo}
+\begin{table}[H]
+\label{tablax}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+a&b&t \\
+\hline
+843563845&34534&0\\\hline
+17267&843546578&0\\\hline
+17267&421756022&0\\\hline
+17267&210860744&0\\\hline
+17267&26340326&0\\\hline
+17267&13152896&0\\\hline
+17267&85490&0\\\hline
+17267&25478&0\\\hline
+12739&4528&0\\\hline
+283&12456&0\\\hline
+283&1274&0\\\hline
+283&354&0\\\hline
+177&106&0\\\hline
+53&124&0\\\hline
+31&22&0\\\hline
+11&20&0\\\hline
+5&6&0\\\hline
+3&2&0\\\hline
+1&2&0\\\hline
+\end{tabular}
+\end{center}
+\caption{seguimiento de codigo}
+\end{table}
+
+
+
